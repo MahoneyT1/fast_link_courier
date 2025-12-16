@@ -1,0 +1,15 @@
+.box {
+    position: absolute;
+    height: 150px;
+    /* Creates space for the line */
+}
+
+.box::after {
+    content: "";
+    position: absolute;
+    top: 90px;
+    left: 6px;
+    width: 2px;
+    height: 30%;
+    background-color: #CFDDE6;
+}

@@ -1,0 +1,16 @@
+/* animate the features title section */
+
+@keyframes drive-text {
+    0% {
+        transform: translateX(-200px);
+        background: linear-gradient(top, rgb(166, 244, 166) green)
+    }
+    50% {
+        transform: translateX(50px);
+    }
+    
+}
+
+.text-drive-from-left {
+    animation: drive-text 6s 2s forwards;
+}

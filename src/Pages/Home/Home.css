@@ -1,0 +1,19 @@
+@keyframes background-effect {
+    0% {
+        transform: translateX(15px);
+        background-color: red;
+    }
+    50% {
+        transform: translateX(150px);
+        background-color: rgb(219, 237, 23);
+    }
+
+    100% {
+        transform: translateX(150px);
+        background-color: rgb(34, 237, 23);
+    }
+}
+
+.background-effect {
+    animation: background-effect 2s infinite liner;
+}

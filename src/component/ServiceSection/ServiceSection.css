@@ -1,0 +1,45 @@
+@keyframes rotate-x {
+    from {
+        transform: rotateX(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.animate-rotate-x {
+    animation: rotate-x 4s linear infinite;
+    transform-style: preserve-3d;
+}
+
+
+/* moving van icon */
+@keyframes moving-x-3d {
+    0% {
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        transform: translate3d(180px, 0, 100px);
+    }
+}
+
+.moving-fast-3d {
+    animation: moving-x-3d 6s infinite  linear;
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+@keyframes bounce-up-down {
+    from {
+        transform: scale(0.5);
+    }
+    to {
+        transform: scale(1.5);
+    }
+    
+}
+
+.zoom-in {
+    animation: bounce-up-down 5s  infinite  linear ;
+}

@@ -1,0 +1,11 @@
+<!-- package-wings.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="#499f1aff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Package with wings icon">
+  <rect x="10" y="18" width="28" height="22" rx="2" />
+  <path d="M10 18l14-6 14 6" /> <!-- lid -->
+  <path d="M24 18v22" />
+  <!-- wings -->
+  <path d="M6 26c6-2 8-2 12-2" />
+  <path d="M50 26c-6-2-8-2-12-2" />
+  <path d="M2 32c8-1 10-1 14-1" />
+  <path d="M62 32c-8-1-10-1-14-1" />
+</svg>
