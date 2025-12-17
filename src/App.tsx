@@ -11,6 +11,7 @@ import Contact from './Pages/ContactPage/Contact';
 import Login from "./Pages/Auth/Login";
 import Register from './Pages/Auth/Register';
 import PackageDetailPage from './Pages/Track/PackageDetailPage';
+import Profile from './Pages/ProfilePage/Profile';
 import "./index.css"
 import "./App.css"
 import 'leaflet/dist/leaflet.css';
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             <Route path='/create-shipment' element={ <CreateShipment/>} />
             <Route path='/track' element={<Track />} />
             <Route path='/package-details' element={<PackageDetailPage />} />
+            <Route path='/profile' element={ <Profile/> } />
           </Route>
         </Routes>
       </Router>

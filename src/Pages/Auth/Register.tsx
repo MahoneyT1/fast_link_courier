@@ -11,10 +11,9 @@ import { User, Mail, PhoneCallIcon, LockIcon } from "lucide-react";
 import { zodResolver }from '@hookform/resolvers/zod'
 import * as z from "zod";
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AxiosInstance from '../../Utils/AxiosInstance';
+import { registerUser } from '../../services';
 
 
 // create a blueprint for the form data
@@ -46,36 +45,29 @@ const Register: React.FC =() => {
 
     // handle onSubmit function
     const handleSub = async (data: FormType) => {
-
-        // url to create user endpoint
-        const url = 'auth/user/register/';
-        
-        //make a post request to backend
         // send a post request with user new data
+
         try {
-          const response = await AxiosInstance.post(url, data)
-          if (response.status === 201 ) {
-              // throw or alert the user of a success
-              toast.success("Successfully created user",
-                {
-                  // navigate back to login page after 2 seconds
-                  onClose: ()=> navigate('/login'),
-                  autoClose: 2000,
-                }
-              )
+          const response = await registerUser(
+            data.email,
+            data.password,
+            data.phone_number,
+            data.username,
+            data.full_name
+          )
+
+          if (response.user) {
+            // throw or alert the user of a success
+            toast.success("Successfully created user", {
+              // navigate back to login page after 2 seconds
+              onClose: () => navigate('/login'),
+              autoClose: 2000})
           }
         } catch (error) {
-          if (axios.isAxiosError(error)) {
-            toast.error(error.response?.data?.message)
-          }
-          else if (error instanceof Error) {
-          }
-          else { 
-            toast.error("An unknown error occured")
-          }
+          toast.error("Error creating user. Please try again.");
+          console.error("Registration error:", error);
         }
-      
-       }
+      }
 
   return (
     <section className="w-full bg-primary min-h-screen 

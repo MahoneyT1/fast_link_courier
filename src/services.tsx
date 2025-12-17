@@ -11,10 +11,12 @@ import {
     updatePassword,
     deleteUser,
 } from "firebase/auth";
+import { User } from "firebase/auth";
 
 
 // register user function
-export const registerUser = async (email: string, password: string, name: string) => {
+export const registerUser = async (email: string, password: string, name: string, phoneNumber: string, username: string) => {
+
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -23,6 +25,8 @@ export const registerUser = async (email: string, password: string, name: string
         await setDoc(doc(db, "users", user.uid), {
             name: name,
             email: user.email,
+            phoneNumber: phoneNumber,
+            username: username,
             created: new Date()
         })
         return userCredentials
@@ -92,20 +96,20 @@ export const deleteUserAccount = async () => {
     }
 };
 
-export const getEmergency = async ()=> {
-    const emergencyQuerry = await getDocs(collection(db, 'emergency'))
-    const data = emergencyQuerry.docs.map(doc=> ({
+export const getPackage = async ()=> {
+    const packageQuerry = await getDocs(collection(db, 'packages'))
+    const data = packageQuerry.docs.map(doc=> ({
         id: doc.id,
         ...doc.data()
     }))
     return data;
 };
 
-export const updateEmergency = async ( 
+export const updatepackage = async ( 
     id: string,
     updates: Record<string, any> = {}) => {
     try {
-        await setDoc(doc(db, 'emergency', id),
+        await setDoc(doc(db, 'packages', id),
             {...updates, updatedAt: new Date() }, 
             { merge: true });
     } catch (error) {
@@ -113,82 +117,44 @@ export const updateEmergency = async (
     }
 };
 
-
-export const getCompassionate = async () => {
-    const compassionQuerry = await getDocs(collection(db, 'compassion'))
-    const data = compassionQuerry.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
-    return data;
-};
-
-export const updateCompassionate = async (
-    id: string,
-    updates: Record<string, any> = {}) => {
-    try {
-        await setDoc(doc(db, 'compassion', id),
-            { ...updates, updatedAt: new Date() },
-            { merge: true });
-    } catch (error) {
-        throw error;
-    }
-};
-
-export const getHumanitarian = async () => {
-    const humanitarianQuerry = await getDocs(collection(db, 'humanitarian'))
-    const data = humanitarianQuerry.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
-    return data;
-};
-
-export const updateHumanitarian = async (
-    id: string,
-    updates: Record<string, any> = {}) => {
-    try {
-        await setDoc(doc(db, 'compassion', id),
-            { ...updates, updatedAt: new Date() },
-            { merge: true });
-    } catch (error) {
-        throw error;
-    }
-};
-
-
-export interface LeaveRequest {
-    fullName: string;
-    militaryId: string;
-    email: string;
-    phoneNumber: string;
-    description: string;
-    status?: string;
-    userId: string;
-    type: string;
+export interface PackageProps {
+    userId?: string,
+    recipientName: string,
+    recipientPhone_number: string,
+    recipientAddress: string,
+    description: string,
+    height: number,
+    weight: number,
+    length: number,
+    width: number,
+    pickupData: string,
+    deliveryType: string,
+    status: string,
+    createdAt?: Date | string,
+    updatedAt?: Date | string,
 }
 
-export const submitLeaveRequest = async (data: LeaveRequest) => {
+export const submitPackage = async (data: PackageProps) => {
     try {
-        await addDoc(collection(db, 'leave_requests'), {
+        await addDoc(collection(db, 'packages'), {
             ...data,
             status: data.status || 'pending',
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp()
         });
-        console.log("Leave request submitted successfully");
+        console.log("package created successfully");
     } catch (error) {
-        console.error("Error submitting leave request:", error);
+        console.error("Error registering package:", error);
     }
 };
 
-export const getUserLeaveRequests = async () => {
+export const getUserPackages = async () => {
     const user = auth.currentUser;
 
     if (!user) return [];
 
     const q = query(
-        collection(db, "leave_requests"),
+        collection(db, "packages"),
         where("userId", "==", user.uid)
     );
 
@@ -196,10 +162,10 @@ export const getUserLeaveRequests = async () => {
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-// get all leave request information
-export const getAllLeaveRequest = async ()=> {
+// get all packages request information
+export const getAllPackages = async ()=> {
 
-    const snapshot = await getDocs(collection(db, 'leave_requests'))
+    const snapshot = await getDocs(collection(db, 'packages'))
     
     return snapshot.docs.map(doc => {
         const data = doc.data();
@@ -213,9 +179,9 @@ export const getAllLeaveRequest = async ()=> {
     });
 }
 
-export const updateStatus = async (id: string, status: string) => {
+export const updatePackageStatus = async (id: string, status: string) => {
     try {
-        const leaveRef = doc(db, "leave_requests", id); // reference to the document
+        const leaveRef = doc(db, "packages", id); // reference to the document
         await updateDoc(leaveRef, {
             status: status,
         });

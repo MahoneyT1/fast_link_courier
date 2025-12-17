@@ -2,14 +2,14 @@
  * login page.
  */
 
-import React, { useContext } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axiosInstance from '../../Utils/AxiosInstance';
 import { useAuth } from '../../Utils/AuthProvider';
 // import { ReceiptRussianRuble } from 'lucide-react';
+import { loginUser } from '../../services';
+import { useEffect } from 'react';
 
 
 interface LoginProps {
@@ -17,16 +17,12 @@ interface LoginProps {
     password: string,
 }
 
+
 const Login: React.FC = () => {
+    const auth = useAuth()
 
     // create a navigation object
     const navigator = useNavigate();
-
-    // location api
-    const location = useLocation();
-
-    // descruture Auth context
-    const { isAuthenticated, setIsAuthenticated, checkAuth } = useAuth();
 
     // set up the form object
     const {
@@ -36,50 +32,42 @@ const Login: React.FC = () => {
         formState: { errors, isSubmitting }
     } = useForm<LoginProps>();
 
-    // function to handle login
-    const handleLogin = async (formData: LoginProps) => {
-
-        // login url
-        const url = 'login/';
-
-        if (!isAuthenticated) {
-            
-            try {
-                // make a post request with login details
-                const response = await axiosInstance.post(url, formData, { withCredentials: true });
-
-                if (response.status === 200) {
-                    toast.success("Successfully logged in",
-                        {
-                        onClose: ()=> {
-                            // Verify backend state and then navigate so UI reflects true auth
-                            setIsAuthenticated(true);
-                            console.log(response.data)
-                            navigator('/', { replace: true });
-                        },
-                        autoClose: 2000
-                    });
-                }
-                else { 
-                    setIsAuthenticated(false);
-                    toast.error("Invalid email or password", {
-                        autoClose: 2000
-                    });
-                    reset();
-                 }
-
-            } catch (err: any) {
-                toast.error("check your info or create an account !", {
-                    autoClose: 2000
-                });
-                reset();
-                setIsAuthenticated(false);
-                navigator('/login', { replace: true });
-            }
-        } else {
+    useEffect(()=> {
+        if (auth.user) {
             navigator('/', { replace: true });
         }
-    };
+    })
+
+    // function to handle login
+    const handleLogin = async (formData: LoginProps) => {
+        console.log("Attempting login with", formData)
+        
+        try {
+            // make a post request with login details
+            const response = await loginUser(
+                formData.email,
+                formData.password
+            );
+
+            if (response.user) {
+                toast.success("Successfully logged in",
+                    { onClose: ()=> {
+                        // Verify backend state and then navigate so UI reflects true auth
+                        console.log(response.user)
+                        navigator('/', { replace: true });
+                    },
+                    autoClose: 2000
+                });
+            }   
+        } catch (err: any) {
+            toast.error("Invalid email or password", {
+                autoClose: 2000
+            });
+            console.log(errors)
+            reset();
+        }
+               
+    }
 
     return (
         <section className='w-full p-3 md:px-30 md:p-10 lg:px-40 bg-primary min-h-screen'>

@@ -5,51 +5,60 @@
  */
 
 import { useContext, createContext, useState, ReactNode, useEffect } from 'react';
-import location from 'react-router-dom';
 import axiosInstance from './AxiosInstance';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
 
 
-interface AuthContextType {
-    isAuthenticated: boolean,
-    setIsAuthenticated: (auth: boolean ) => void,
-    checkAuth: ()=> Promise<void>
+
+type AuthProviderProps = {
+    children: React.ReactNode
 }
 
-const AuthContext = createContext<AuthContextType>({
-    isAuthenticated: false,
-    setIsAuthenticated: () => {!false},
-    checkAuth: async ()=>{},
-})
 
-// create a custom hook for easier access to the Auth context
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext({
+    user: null as null | object,
+    loading: true,
+    isAdmin: null as null | boolean
+});
 
 
-export const AuthProvider = ({ children }: { children: ReactNode })=> {
-    // provides all auth or data globally
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    // User state
+    const [user, setUser] = useState<null | object>(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    // initialize state variables
-    const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(false);
-    
-    const checkAuth = async ()=> {
-        try {
-            const response = await axiosInstance.get('auth-verify/', { withCredentials: true });
-            if (response.status === 200 ) {
-                setIsAuthenticated(true);
-            } else {
-                setIsAuthenticated(false);
+    useEffect(() => {
+
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+
+            if (currentUser) {
+                try {
+                    const token = await currentUser.getIdTokenResult();
+                    // set isAdmin based on a custom claim (adjust claim name as needed)
+                    setIsAdmin(Boolean(token.claims && token.claims.admin));
+                } catch (err) {
+                    console.error('Failed to get ID token result', err);
+                    setIsAdmin(false);
+                }
             }
-        }
-        catch (error) {
-            setIsAuthenticated(false);
-            console.error("Error checking auth status:", error);
-        }
-    }
- 
+            else {
+                setIsAdmin(false)
+            }
+        })
+
+        return () => unsubscribe();
+    }, [])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, checkAuth }}>
-            { children }
+        <AuthContext.Provider value={{ user, loading, isAdmin }}>
+            {!loading && children}
         </AuthContext.Provider>
     )
 }
+
+export const useAuth = () => useContext(AuthContext);
+export default AuthProvider;

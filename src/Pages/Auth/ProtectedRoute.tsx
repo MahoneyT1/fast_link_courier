@@ -9,10 +9,15 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../Utils/AuthProvider';
 
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children } ) => {
+interface ProtectedRouteProps {
+    children: ReactNode
+}
+
+
+const ProtectedRoute: React.FC = () => {
 
     // descructure Auth context
-    const { isAuthenticated } = useAuth();
+    const auth = useAuth();
     const location = useLocation();
 
     // If still checking authentication status, you can return a loading indicator
@@ -22,13 +27,12 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children } ) 
     // }
 
     // If not authenticated, you can redirect to login or show an unauthorized message
-    if (!isAuthenticated) {
+    if (!auth.user) {
         return <Navigate to="/login" state={{ path: location.pathname }} />;
     }
-    console.log('isAuthenticated:', isAuthenticated);
 
     // If authenticated, render the children components
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+    return auth.user ? < Outlet/> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
