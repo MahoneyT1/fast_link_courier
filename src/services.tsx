@@ -118,27 +118,9 @@ export const updatepackage = async (
     }
 };
 
-export interface PackageProps {
-    userId?: string,
-    senderName?: string,
-    senderEmail?: string,
-    senderAddress?: string,
-    recipientName: string,
-    recipientPhoneNumber: string,
-    recipientAddress: string,
-    description: string,
-    height: number,
-    weight: number,
-    length: number,
-    width: number,
-    pickupData: string,
-    deliveryType: string,
-    status: string,
-    createdAt?: Date | string,
-    updatedAt?: Date | string,
-}
 
-export const submitPackage = async (data: PackageProps) => {
+
+export const submitPackage = async (data: any) => {
     try {
         await addDoc(collection(db, 'packages'), {
             ...data,

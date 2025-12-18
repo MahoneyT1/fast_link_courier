@@ -2,7 +2,7 @@
  * login page.
  */
 
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -53,7 +53,6 @@ const Login: React.FC = () => {
                 toast.success("Successfully logged in",
                     { onClose: ()=> {
                         // Verify backend state and then navigate so UI reflects true auth
-                        console.log(response.user)
                         navigator('/', { replace: true });
                     },
                     autoClose: 2000
@@ -63,7 +62,6 @@ const Login: React.FC = () => {
             toast.error("Invalid email or password", {
                 autoClose: 2000
             });
-            console.log(errors)
             reset();
         }
                
@@ -73,10 +71,10 @@ const Login: React.FC = () => {
         <section className='w-full p-3 md:px-30 md:p-10 lg:px-40 bg-primary min-h-screen'>
 
             <form onSubmit={handleSubmit(handleLogin)}
-                className='bg-white rounded-2xl p-7 text-primary lg:mx-60'>
+                className='bg-white rounded-2xl mt-4 p-7 text-primary lg:mx-60'>
 
                 <div className='w-full  text-center '>
-                    <h4 className='text-3xl font-bold'>Courier Login</h4>
+                    <h4 className='text-3xl font-bold'>Login</h4>
                 </div>
 
                 <div className='py-5 '>

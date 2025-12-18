@@ -4,14 +4,9 @@
  * It checks if the user is authenticated before allowing access to the wrapped component.
  */
 
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../Utils/AuthProvider';
-
-
-interface ProtectedRouteProps {
-    children: ReactNode
-}
 
 
 const ProtectedRoute: React.FC = () => {

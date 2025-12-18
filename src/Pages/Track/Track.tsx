@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import Button from '../../component/Button';
+import React from 'react';
 import { cardPropData } from './TrackData';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../Utils/AxiosInstance';
 import { getPackage } from '../../services';
 
 
@@ -21,7 +19,7 @@ const Track: React.FC = ()=> {
   const { 
     register, 
     handleSubmit, 
-    formState: { errors, isLoading }
+    formState: { errors }
   } = useForm<TrackForm>();
 
   //handle the obtained data from the form
@@ -43,7 +41,7 @@ const Track: React.FC = ()=> {
 
         <span className=' text-white text-sm md:text-lg bg-primary rounded-2xl px-4'>
           <i className="fa-solid fa-location-dot m-2"></i>
-          Global Package Tracking
+          Global-logistick Package Tracking
         </span>
 
         <div className='md:px-15'>

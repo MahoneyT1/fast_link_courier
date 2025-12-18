@@ -11,7 +11,7 @@ import landingPage from "../../assets/landingPlane.jpg"
 const Map: React.FC = () => {
 
     // Button send message form
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { handleSubmit } = useForm();
     
 
     //submit form handler

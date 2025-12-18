@@ -2,10 +2,6 @@
  * data for our mission
  */
 
-import { Target, Package } from "lucide-react";
-import React from "react";
-
-
 // create type for missionData props
 interface MissionType {
     icon: any,

@@ -1,11 +1,28 @@
 import React, { useState, useEffect} from 'react';
 import { getAllPackages, updatePackageStatus, deletePackage, updatePaidStatus, updatePackagePrice } from '../../services';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 
 const AdminPage: React.FC = () => {
 
     const [packages, setPackages] = useState<any[]>([]);
     const [priceDraft, setPriceDraft] = useState<Record<string, number>>({});
+    const [receiptData, setReceiptData] = useState<FormType | null>(null);
+
+
+
+
+     const downloadReceipt = async () => {
+            const receipt = document.getElementById("receipt");
+    
+            const canvas = await html2canvas(receipt as HTMLElement);
+            const imgData = canvas.toDataURL("image/png");
+    
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, "PNG", 10, 10, 190, 0);
+            pdf.save("receipt.pdf");
+        };
 
     useEffect(()=> {
         const fetchPackages = async () => {
@@ -13,6 +30,7 @@ const AdminPage: React.FC = () => {
             try {
                 const data = await getAllPackages();
                 setPackages(data);
+                    
             } catch (error) {
                 console.error("Error fetching packages:", error);
             }
@@ -70,6 +88,8 @@ const AdminPage: React.FC = () => {
                             <th className="border border-gray-300 px-4 py-2">Payment status</th>
                             <th className="border border-gray-300 px-4 py-2">Package status</th>
                             <th className="border border-gray-300 px-4 py-2">Charged price</th>
+                            <th className="border border-gray-300 px-4 py-2">Download receipt</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -157,6 +177,31 @@ const AdminPage: React.FC = () => {
 
                                         
                                 </td>
+
+                                <td>
+                                    <button
+                                        onClick={async () => {
+                                            setReceiptData({
+                                                receiptNo: pkg.id,
+                                                senderName: pkg.senderName,
+                                                senderEmail: pkg.senderEmail,
+                                                receiverName: pkg.recipientName,
+                                                receiverEmail: pkg.recipientEmail,
+                                                weight: pkg.weight,
+                                                price: pkg.totalPrice,
+                                                status: pkg.status,
+                                                deliveryDate: pkg.pickupData,
+                                                paid: pkg.paid,
+                                            });
+                                            setTimeout(() => {
+                                                downloadReceipt();
+                                            }, 100); //
+                                        }}
+                                        className="bg-green-500 text-white px-3 py-1 rounded"
+                                    >
+                                        Download
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -164,6 +209,24 @@ const AdminPage: React.FC = () => {
             )}
 
         </div>
+
+          {receiptData && (
+              <div id="receipt">
+                  
+                  <h2>Package Receipt</h2>
+                  <p><strong>Receipt No:</strong> {receiptData.receiptNo}</p>
+                  <p><strong>Sender's Name:</strong> {receiptData.senderName}</p>
+                  <p><strong>Sender's Email:</strong> {receiptData.senderEmail}</p>
+                  <p><strong>Receiver's Name:</strong> {receiptData.receiverName}</p>
+                  <p><strong>Receiver's Email:</strong> {receiptData.receiverEmail}</p>
+                  <p><strong>Package:</strong> {receiptData.packageName}</p>
+                  <p><strong>Weight:</strong> {receiptData.weight}</p>
+                  <p><strong>Amount:</strong> ₦{receiptData.price}</p>
+                  <p><strong>Status:</strong> {receiptData.status}</p>
+                  <p><strong>Expected Delivery Date:</strong> {receiptData.deliveryDate}</p>
+              </div>
+
+          )}
     </section>
   )
 }

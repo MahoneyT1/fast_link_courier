@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { MapPin, Package } from 'lucide-react';
 
 
+
 type FormType = {
     senderName: string;
     senderEmail: string;
@@ -22,8 +23,8 @@ type FormType = {
 };
 
 const CreateShipment: React.FC = () => {
-    const { user } = useAuth();
     const [step, setStep] = useState(1);
+
     const auth = useAuth();
     const {
         register,
@@ -32,8 +33,9 @@ const CreateShipment: React.FC = () => {
         formState: { errors, isSubmitting }
     } = useForm<FormType>();
 
+
     const onSubmit = async (data: FormType) => {
-        if (!user) {
+        if (!auth.user) {
             toast.error('You must be logged in');
             return;
         }
@@ -52,10 +54,13 @@ const CreateShipment: React.FC = () => {
             toast.success('Package created successfully');
             reset();
             setStep(1);
+
         } catch (error) {
             toast.error('Failed to create package');
         }
     };
+
+
 
     return (
         <section className="w-full min-h-screen bg-primary py-10">
@@ -221,6 +226,7 @@ const CreateShipment: React.FC = () => {
                     </div>
                 </form>
             </div>
+
         </section>
     );
 };

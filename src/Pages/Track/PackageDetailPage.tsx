@@ -30,8 +30,6 @@ const PackageDetailPage: React.FC = () => {
 
   }, [packageData, navigate]);
 
-  console.log(packageData);
-
   return (
     <section
     style={{
@@ -86,7 +84,7 @@ const PackageDetailPage: React.FC = () => {
 
               <div className=''>
                 <p className='text-primary font-bold'>Delivery Date</p>
-                <span className='text-sm text-green-700 font-bold'>{packageData.pickupdate}</span>
+                <span className='text-sm text-green-700 font-bold'>{packageData.pickupDate}</span>
               </div>
 
             </div>

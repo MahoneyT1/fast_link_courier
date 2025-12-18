@@ -7,24 +7,31 @@
 import { useContext, createContext, useState, useEffect } from 'react';
 import { onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
+import type { User } from 'firebase/auth';
 
 
 type AuthProviderProps = {
     children: React.ReactNode
 }
 
+interface AuthContextType {
+    user: User | null;
+    loading: boolean;
+    isAdmin: boolean;
+    resetPassword: (email: string) => Promise<void>;
+}
 
-const AuthContext = createContext({
-    user: null as null | object,
+const AuthContext = createContext<AuthContextType>({
+    user: null,
     loading: true,
-    isAdmin: null as null | boolean,
-    resetPassword: async (email: string) => { return }
+    isAdmin: false,
+    resetPassword: async () => { }
 });
 
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // User state
-    const [user, setUser] = useState<null | object>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
 

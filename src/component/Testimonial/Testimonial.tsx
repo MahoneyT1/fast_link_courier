@@ -36,13 +36,13 @@ const Testimonial:React.FC = () => {
   return (
     <section 
       className='
-        w-full pb-10 bg-primary grid grid-cols-1 justify-items-center
+        w-full pb-5 bg-primary grid grid-cols-1 justify-items-center
          md:grid-cols-12'>
       <div className='col-span-12 p-5'>
         <h5 className='text-3xl text-center mb-4 text-white lg:text-5xl'>See what our customers are saying</h5>
       </div>
     
-      <div className='col-span-12 md:col-span-12  md:grid md:grid-cols-2 w-full
+      <div className='col-span-12 md:col-span-12  md:grid md:grid-cols-2 w-full grid-cols-1
       md:place-items-center lg:grid-cols-3 xl:grid-cols-4'>
         {testimonials.map((item, index)=> (
               <div key={index} className='place-items-center text-primary w-full mt-5 md:place-items-center' 

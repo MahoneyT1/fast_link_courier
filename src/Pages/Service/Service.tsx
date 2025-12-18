@@ -8,7 +8,6 @@ import { motion } from "framer-motion"
 
 
 const Service:React.FC = () => {
-    const handleClick = ()=> { console.log("worked") }
 
 
   return (
@@ -21,7 +20,7 @@ const Service:React.FC = () => {
                     from-blue-200 via-blue-200 to-blue-50/70 rounded-2xl px-3 py-1 '>
                     <i className="fa-solid fa-location-dot text-blue-900 
                     "></i> 
-                    Trusted Global Courier Partner
+                    <span className='ms-2'>Trusted Global-logistick Courier Services</span>
                 </span>
             </div>
            
@@ -36,12 +35,12 @@ const Service:React.FC = () => {
                 <div className='m-1'>
                     <Button buttonName='Track Your Shipment'
                     className='bg-green-700 p-2 text-gray-200 rounded-lg md:p-4'
-                    onClickFunc={handleClick}/>
+                    />
                 </div>
 
                 <div className='m-1'>
                     <Button buttonName='Explore our services'
-                    className='border-1 p-2 rounded-lg  md:p-4' onClickFunc={handleClick} 
+                    className='border-1 p-2 rounded-lg  md:p-4' 
                     titleStyle='text-primary font-lg'/>
                 </div>
             </div>
@@ -106,7 +105,7 @@ const Service:React.FC = () => {
                         Safe, insured, and globally complaint operations.
                     </p>
                     <Button buttonName='Get a logistics Quote'
-                    onClickFunc={handleClick} className='bg-gradient-to-r from-green-700 p-3  rounded mt-9 text-white font-semibold
+                     className='bg-gradient-to-r from-green-700 p-3  rounded mt-9 text-white font-semibold
                      border-1 border-white '/>
                 </div>
             </div>
