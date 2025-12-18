@@ -118,6 +118,9 @@ const Login: React.FC = () => {
                 <div className='mt-9 lg:text-center'>
                     <p className=''>Don't have an account?
                         <Link to='/register' className='text-blue-500'> Create one</Link> </p>
+
+                    <p className=''>Forgotten Password ?
+                        <Link to='/forgot-password' className='text-blue-500'> Reset password</Link> </p>
                 </div>
 
             </form>

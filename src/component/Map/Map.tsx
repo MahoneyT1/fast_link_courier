@@ -82,10 +82,11 @@ const Map: React.FC = () => {
                     <h5 className='text-2xl inline-flex items-center'>Email</h5>
                 </div>
                 
-                <p className='mx-3 mt-4 text-gray-300'> Customer Service: <span className='text-blue-400'>
-                            support@aerologistics.com
-                        </span> Business Development: 
-                    <span className='text-blue-400'> business@aerologistics.com</span> 
+                <p className='mx-3 mt-4 text-gray-300'> 
+                    Customer Service:  
+                    <span className='text-blue-400 ms-2'>
+                             globallogistick@email.com
+                    </span>
                 </p>
             </div>
 

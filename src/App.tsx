@@ -18,6 +18,9 @@ import 'leaflet/dist/leaflet.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // ✅ Required
 import ProtectedRoute from './Pages/Auth/ProtectedRoute';
+import ProtectedAdminRoute from './Pages/AdminPage/AdminProtectedRoute';
+import AdminPage from './Pages/AdminPage/AdminPage';
+import ForgotPasswordPage from './Pages/Auth/ForgotPasswordPage';
 
 
 const App: React.FC = () => {
@@ -33,6 +36,7 @@ const App: React.FC = () => {
           <Route path='/about' element={< About/> } />
           <Route path='/service' element={ <Service/> } />
           <Route path='/contact' element={ <Contact/> }/>
+          <Route path='/forgot-password' element={ <ForgotPasswordPage/> }/>
 
 
           {/* protected routes */}
@@ -42,7 +46,21 @@ const App: React.FC = () => {
             <Route path='/package-details' element={<PackageDetailPage />} />
             <Route path='/profile' element={ <Profile/> } />
           </Route>
+
+          {/* PROTECTED ADMIN ROUTES */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminPage />   {/* This is the admin dashboard layout */}
+              </ProtectedAdminRoute>
+            }
+          >
+            {/* Nested admin routes */}
+          </Route>
+
         </Routes>
+
       </Router>
     
       <div className='mt-20'>

@@ -2,7 +2,7 @@
  * Services Module
  */
 import { auth, db } from "./firebase";
-import { doc, setDoc, getDocs, collection, addDoc, serverTimestamp, query, where, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, getDocs, collection, addDoc, serverTimestamp, query, where, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -11,7 +11,6 @@ import {
     updatePassword,
     deleteUser,
 } from "firebase/auth";
-import { User } from "firebase/auth";
 
 
 // register user function
@@ -95,14 +94,16 @@ export const deleteUserAccount = async () => {
         throw new Error("No user is currently signed in.");
     }
 };
+export const getPackage = async (id: string) => {
+    const packageRef = doc(db, "packages", id); // reference to a specific package
+    const packageSnap = await getDoc(packageRef);
 
-export const getPackage = async ()=> {
-    const packageQuerry = await getDocs(collection(db, 'packages'))
-    const data = packageQuerry.docs.map(doc=> ({
-        id: doc.id,
-        ...doc.data()
-    }))
-    return data;
+    if (packageSnap.exists()) {
+        return { id: packageSnap.id, ...packageSnap.data() };
+    } else {
+        console.log("No such package!");
+        return null;
+    }
 };
 
 export const updatepackage = async ( 
@@ -119,8 +120,11 @@ export const updatepackage = async (
 
 export interface PackageProps {
     userId?: string,
+    senderName?: string,
+    senderEmail?: string,
+    senderAddress?: string,
     recipientName: string,
-    recipientPhone_number: string,
+    recipientPhoneNumber: string,
     recipientAddress: string,
     description: string,
     height: number,
@@ -142,9 +146,8 @@ export const submitPackage = async (data: PackageProps) => {
             createdAt: serverTimestamp(),
             updatedAt: serverTimestamp()
         });
-        console.log("package created successfully");
     } catch (error) {
-        console.error("Error registering package:", error);
+        throw new Error(String(error))
     }
 };
 
@@ -189,5 +192,42 @@ export const updatePackageStatus = async (id: string, status: string) => {
 
     } catch (err) {
         throw new Error()
+    }
+
+};
+
+
+export const deletePackage = async (id: string) => {
+    try {
+        const packageRef = doc(db, "packages", id);
+        await deleteDoc(packageRef);
+        return true;
+    } catch (err) {
+        throw new Error("Failed to delete package");
+    }
+};
+
+
+export const updatePaidStatus = async (id: string, paid: boolean) => {
+    try {
+        await updateDoc(doc(db, "packages", id), {
+            paid,
+        });
+        alert("Payment status updated");
+    } catch (err) {
+        console.error(err);
+        alert("Not authorized");
+    }
+};
+
+export const updatePackagePrice = async (id: string, totalPrice: number) => {
+    try {
+        await updateDoc(doc(db, "packages", id), {
+            totalPrice,
+        });
+        alert("Package price updated");
+    } catch (err) {
+        console.error(err);
+        alert("Failed to update package price");
     }
 };

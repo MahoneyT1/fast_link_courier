@@ -4,11 +4,9 @@
  * It checks if the user is authenticated before allowing access to the wrapped component.
  */
 
-import { useContext, createContext, useState, ReactNode, useEffect } from 'react';
-import axiosInstance from './AxiosInstance';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useContext, createContext, useState, useEffect } from 'react';
+import { onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
-
 
 
 type AuthProviderProps = {
@@ -19,7 +17,8 @@ type AuthProviderProps = {
 const AuthContext = createContext({
     user: null as null | object,
     loading: true,
-    isAdmin: null as null | boolean
+    isAdmin: null as null | boolean,
+    resetPassword: async (email: string) => { return }
 });
 
 
@@ -49,12 +48,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 setIsAdmin(false)
             }
         })
-
         return () => unsubscribe();
     }, [])
 
+    const resetPassword = (email: string) => {
+        return sendPasswordResetEmail(auth, email);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, isAdmin }}>
+        <AuthContext.Provider value={{ user, loading, isAdmin, resetPassword }}>
             {!loading && children}
         </AuthContext.Provider>
     )

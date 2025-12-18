@@ -1,0 +1,58 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 600 420"
+  class="w-64 fill-current"
+>
+  <!-- Shield -->
+  <path
+    d="M300 30
+       L480 100
+       V230
+       C480 300 390 350 300 390
+       C210 350 120 300 120 230
+       V100
+       Z"
+  />
+
+  <!-- Truck body -->
+  <path
+    d="M210 180
+       H350
+       C370 180 385 195 385 215
+       V245
+       H210
+       Z"
+  />
+
+  <!-- Truck cabin -->
+  <path
+    d="M350 190
+       H410
+       C430 190 445 205 445 225
+       V245
+       H350
+       Z"
+  />
+
+  <!-- Speed lines -->
+  <rect x="160" y="195" width="45" height="10" rx="5" />
+  <rect x="145" y="215" width="60" height="10" rx="5" />
+  <rect x="160" y="235" width="45" height="10" rx="5" />
+
+  <!-- Wheels -->
+  <circle cx="255" cy="255" r="22" />
+  <circle cx="385" cy="255" r="22" />
+
+  <!-- Text -->
+  <text
+    x="300"
+    y="370"
+    text-anchor="middle"
+    font-size="42"
+    font-weight="700"
+    font-family="Arial, Helvetica, sans-serif"
+    letter-spacing="2"
+  >
+    GLOBAL-LOGISTICK
+  </text>
+</svg>

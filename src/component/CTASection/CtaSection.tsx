@@ -8,7 +8,6 @@ const CtaSection: React.FC = () => {
     const navigateToCreateShipment = useNavigate();
 
     const handlCreateShipmentButton = ()=> {
-        console.log('clicked me');
         navigateToCreateShipment('/create-shipment');
     }
   return (

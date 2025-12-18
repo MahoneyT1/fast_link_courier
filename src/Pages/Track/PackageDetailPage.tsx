@@ -60,12 +60,8 @@ const PackageDetailPage: React.FC = () => {
           </div>
 
         </div>
-
-        { packageData?.deliveries && packageData?.deliveries?.length > 0 ? ( 
-          packageData?.deliveries?.map((deliveryItem: any, deliveryIndex: number) => (
-          <div key={deliveryIndex} className='min-h-[250vh]'>
-
-       
+        {packageData ? (
+          <div className='min-h-[250vh]'>
 
             <div className=' flex gap-3 mt-6 py-3'>
 
@@ -77,7 +73,7 @@ const PackageDetailPage: React.FC = () => {
 
               <div className='col-span-1'>
                 <p className=' text-primary font-bold'>Delivery Type</p>
-                <span className='text-sm text-green-700 font-bold'>{deliveryItem.delivery_type}</span>
+                <span className='text-sm text-green-700 font-bold'>{packageData.deliveryType}</span>
               </div>
 
             </div>
@@ -90,7 +86,7 @@ const PackageDetailPage: React.FC = () => {
 
               <div className=''>
                 <p className='text-primary font-bold'>Delivery Date</p>
-                <span className='text-sm text-green-700 font-bold'>{deliveryItem.estimated_delivery_date}</span>
+                <span className='text-sm text-green-700 font-bold'>{packageData.pickupdate}</span>
               </div>
 
             </div>
@@ -104,7 +100,7 @@ const PackageDetailPage: React.FC = () => {
 
               <div className=''>
                 <p className='text-primary font-bold'>Delivery Status</p>
-                <span className='text-sm text-green-700 font-bold'>{deliveryItem.current_status}</span>
+                <span className='text-sm text-green-700 font-bold'>{packageData.status}</span>
               </div>
 
             </div>
@@ -121,7 +117,7 @@ const PackageDetailPage: React.FC = () => {
 
                 <div className=''>
                   <p className='text-primary font-bold'>Sender's Name</p>
-                  <span className='text-sm text-green-700 font-bold'>{packageData.user.full_name}</span>
+                  <span className='text-sm text-green-700 font-bold'>{packageData.senderName}</span>
                 </div>
 
               </div>
@@ -134,7 +130,7 @@ const PackageDetailPage: React.FC = () => {
 
                 <div className=''>
                   <p className='text-primary font-bold'>Sender's Address</p>
-                  <span className='text-sm text-green-700 font-bold'>{packageData.user.address}</span>
+                  <span className='text-sm text-green-700 font-bold'>{packageData.senderAddress}</span>
                 </div>
 
               </div>
@@ -147,7 +143,7 @@ const PackageDetailPage: React.FC = () => {
 
                 <div className=''>
                   <p className='text-primary font-bold'>Phone Number</p>
-                  <span className='text-sm text-green-700 font-bold'>{packageData.user.phone_number}</span>
+                  <span className='text-sm text-green-700 font-bold'>{packageData.senderPhoneNumber}</span>
                 </div>
 
               </div>
@@ -166,7 +162,7 @@ const PackageDetailPage: React.FC = () => {
 
                 <div className=''>
                   <p className='text-primary font-bold'>Recipient's Name</p>
-                  <span className='text-sm text-green-700 font-bold'>{packageData.recipient_name}</span>
+                  <span className='text-sm text-green-700 font-bold'>{packageData.recipientName}</span>
                 </div>
 
               </div>
@@ -179,7 +175,7 @@ const PackageDetailPage: React.FC = () => {
 
                 <div className=''>
                   <p className='text-primary font-bold'>Recipient's Address</p>
-                  <span className='text-sm text-green-700 font-bold'>{packageData.recipient_address}</span>
+                  <span className='text-sm text-green-700 font-bold'>{packageData.recipientAddress}</span>
                 </div>
 
               </div>
@@ -192,7 +188,7 @@ const PackageDetailPage: React.FC = () => {
 
                 <div className=''>
                   <p className='text-primary font-bold'>Phone Number</p>
-                  <span className='text-sm text-green-700 font-bold'>{packageData.recipient_phone_number}</span>
+                  <span className='text-sm text-green-700 font-bold'>{packageData.recipientPhoneNumber}</span>
                 </div>
               </div>
             </div>
@@ -248,8 +244,8 @@ const PackageDetailPage: React.FC = () => {
             </div>
           
           </div>
-          ))
-        ) : (
+          )
+         : (
           <div>No delivery information available.</div>
         )}
       </div>

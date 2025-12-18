@@ -5,10 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../Utils/AxiosInstance';
-
-
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-// console.log('Base URL:', import.meta.env.VITE_API_BASE_URL);
+import { getPackage } from '../../services';
 
 
 interface TrackForm {
@@ -33,10 +30,7 @@ const Track: React.FC = ()=> {
 
     const { id } = data;
       try { 
-        const response = await axiosInstance.get(
-          `packages/${id}/`, { withCredentials: true });
-
-        const packageData = await response.data;
+        const packageData = await getPackage(id)
         navigate(`/package-details`, { state: {package: packageData }});
 
       } catch( err: any) {

@@ -7,16 +7,18 @@ import { MapPin, Package } from 'lucide-react';
 
 
 type FormType = {
-    recipient_name: string;
-    recipient_phone_number: string;
-    recipient_address: string;
+    senderName: string;
+    senderEmail: string;
+    senderAddress: string;
+    recipientName: string;
+    recipientPhoneNumber: string;
+    recipientAddress: string;
+    recipientEmail: string;
     description: string;
     height: number;
     weight: number;
-    length: number;
-    width: number;
-    pickup_date: string;
-    delivery_type: string;
+    pickupDate: string;
+    deliveryType: string;
 };
 
 const CreateShipment: React.FC = () => {
@@ -40,6 +42,8 @@ const CreateShipment: React.FC = () => {
             ...data,
             userId: auth?.user?.uid,
             status: 'pending',
+            totalPrice: 2000,
+            paid: false,
             createdAt: new Date().toISOString()
         };
 
@@ -49,7 +53,6 @@ const CreateShipment: React.FC = () => {
             reset();
             setStep(1);
         } catch (error) {
-            console.error(error);
             toast.error('Failed to create package');
         }
     };
@@ -77,35 +80,35 @@ const CreateShipment: React.FC = () => {
                         <div className="p-5">
                             <h2 className="text-2xl inline-flex gap-3 items-center font-semibold text-primary">
                                 <MapPin size={25} className="text-green-600" />
-                                Recipient Information
+                                Sender's Information
                             </h2>
 
                             <input
-                                {...register('recipient_name', { required: 'Required' })}
-                                placeholder="Recipient's Name"
+                                {...register('senderName', { required: 'Required' })}
+                                placeholder="Sender's Name"
                                 className="border-1 p-2 rounded w-full m-1 mt-7 border-green-500 text-gray-600"
                             />
-                            {errors.recipient_name && (
-                                <p className="text-red-500">{errors.recipient_name.message}</p>
+                            {errors.senderName && (
+                                <p className="text-red-500">{errors.senderName.message}</p>
+                            )}
+
+                            <input type="email"
+                                {...register('senderEmail', { required: 'Required' })}
+                                placeholder="Sender's Email"
+                                className="border-1 p-2 rounded w-full m-1 mt-7 border-green-500 text-gray-600"
+                            />
+                            {errors.senderEmail && (
+                                <p className="text-red-500">{errors.senderEmail.message}</p>
                             )}
 
                             <input
-                                {...register('recipient_address', { required: 'Required' })}
-                                placeholder="Address"
+                                {...register('senderAddress', { required: 'Required' })}
+                                placeholder="Sender's Address"
                                 className="border-1 p-2 rounded w-full m-1 mt-7 border-green-500 text-gray-600"
                             />
-                            {errors.recipient_address && (
-                                <p className="text-red-500">{errors.recipient_address.message}</p>
-                            )}
-
-                            <input
-                                {...register('recipient_phone_number', { required: 'Required' })}
-                                placeholder="Phone number"
-                                className="border-1 p-2 rounded w-full m-1 mt-7 border-green-500 text-gray-600"
-                            />
-                            {errors.recipient_phone_number && (
+                            {errors.senderAddress && (
                                 <p className="text-red-500">
-                                    {errors.recipient_phone_number.message}
+                                    {errors.senderAddress.message}
                                 </p>
                             )}
                         </div>
@@ -116,36 +119,50 @@ const CreateShipment: React.FC = () => {
                         <div className="p-5">
                             <h2 className="text-2xl inline-flex gap-3 items-center font-semibold text-primary">
                                 <Package size={25} />
-                                Package Details
+                                Receiver's Details
                             </h2>
 
                             <input
+                                {...register('recipientName', { required: 'Required' })}
+                                placeholder="Recipient's Name"
+                                className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
+                            />
+                            {errors.recipientName && <p className="text-red-500">{errors.recipientName.message}</p>}
+
+                            <input type="tel"
+                                {...register('recipientPhoneNumber', { required: 'Required' })}
+                                placeholder="Recipient's Phone Number"
+                                className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
+                            />
+                            {errors.recipientPhoneNumber && <p className="text-red-500">{errors.recipientPhoneNumber.message}</p>}
+
+                            <input
+                                {...register('recipientAddress', { required: 'Required' })}
+                                placeholder="Recipient's Address"
+                                className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
+                            />
+                            {errors.recipientAddress && <p className="text-red-500">{errors.recipientAddress.message}</p>}
+
+                            <input type="email"
+                                {...register('recipientEmail', { required: 'Required' })}
+                                placeholder="Recipient's Email"
+                                className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
+                            />
+                            {errors.recipientEmail && <p className="text-red-500">{errors.recipientEmail.message}</p>}
+
+                            <input
                                 {...register('height', { required: 'Required' })}
-                                placeholder="Height"
+                                placeholder="Height (in cm)"
                                 className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
                             />
                             {errors.height && <p className="text-red-500">{errors.height.message}</p>}
 
                             <input
                                 {...register('weight', { required: 'Required' })}
-                                placeholder="Weight"
+                                placeholder="Weight (in kg)"
                                 className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
                             />
                             {errors.weight && <p className="text-red-500">{errors.weight.message}</p>}
-
-                            <input
-                                {...register('length', { required: 'Required' })}
-                                placeholder="Length"
-                                className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
-                            />
-                            {errors.length && <p className="text-red-500">{errors.length.message}</p>}
-
-                            <input
-                                {...register('width', { required: 'Required' })}
-                                placeholder="Width"
-                                className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
-                            />
-                            {errors.width && <p className="text-red-500">{errors.width.message}</p>}
 
                             <input
                                 {...register('description')}
@@ -155,15 +172,15 @@ const CreateShipment: React.FC = () => {
 
                             <input
                                 type="date"
-                                {...register('pickup_date', { required: 'Required' })}
+                                {...register('pickupDate', { required: 'Required' })}
                                 className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
                             />
-                            {errors.pickup_date && (
-                                <p className="text-red-500">{errors.pickup_date.message}</p>
+                            {errors.pickupDate && (
+                                <p className="text-red-500">{errors.pickupDate.message}</p>
                             )}
 
                             <select
-                                {...register('delivery_type', { required: 'Required' })}
+                                {...register('deliveryType', { required: 'Required' })}
                                 className="border-1 p-2 rounded m-1 mt-7 border-green-500 text-gray-600 w-full"
                             >
                                 <option value="domestic">Domestic</option>

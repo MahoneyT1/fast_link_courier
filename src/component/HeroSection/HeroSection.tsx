@@ -45,8 +45,8 @@ const HeroSection: React.FC = () => {
         md:w-[600px] lg:w-[900px] xl:md-[76vw]'>
         <h1 className='text-white font-Inter backdrop-blur
           text-drive-from-left lg:text-5xl'>
-            Reliable, Fask-Link – Delivering Services. <br />
-            Delivering with Care, Every Time !!
+            Reliable, Global-logistick – Delivering Services. <br />
+            Delivery with Care !!
         </h1>
 
       {/* <h6 className=' text-2xl text-white backdrop-blur-2xl
